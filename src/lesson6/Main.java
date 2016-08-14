@@ -12,11 +12,12 @@ public class Main {
 		car1.maxVolumeOfTank = 100;
 		car1.mileage = 200;
 //		car1.startStop();
-
 		car1.startStop();
-		car1.drive(5);
+		car1.drive(5000);
 		car1.printFInfo();
+		car1.startStop();
 		car1.getFuel(1000);
+		car1.drive(5000);
 		car1.printFInfo();
 
 	}
