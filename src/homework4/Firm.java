@@ -1,23 +1,65 @@
-package homework3;
+
+package homework4;
 
 import java.util.ArrayList;
 
-
+/**
+ * Created by home on 17.08.2016.
+ */
 public class Firm {
-
 
     private String name;
     private String adress;
     private double account;
     private ArrayList<Employee> listEmployees = new ArrayList<Employee>();
-    private ArrayList<Employee> listDepartment = new ArrayList<Employee>();
+    private ArrayList<Department> listOfDepartment = new ArrayList<>();
 
     Firm(String name, String adress, double account) {
         this.name = name;
         this.adress = adress;
         this.account = account;
         this.listEmployees = new ArrayList<Employee>();
-        this.listDepartment = new ArrayList<Employee>();
+        this.listOfDepartment = new ArrayList<Department>();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAdress() {
+        return adress;
+    }
+
+    public void setAdress(String adress) {
+        this.adress = adress;
+    }
+
+    public double getAccount() {
+        return account;
+    }
+
+    public void setAccount(double account) {
+        this.account = account;
+    }
+
+    public ArrayList<Employee> getListEmployees() {
+        return listEmployees;
+    }
+
+    public void setListEmployees(ArrayList<Employee> listEmployees) {
+        this.listEmployees = listEmployees;
+    }
+
+    public ArrayList<Department> getListOfDepartment() {
+        return listOfDepartment;
+    }
+
+    public void setListOfDepartment(ArrayList<Department> listOfDepartment) {
+        this.listOfDepartment = listOfDepartment;
     }
 
     public boolean addEmployee(Employee employee) {
@@ -27,7 +69,6 @@ public class Firm {
                 return false;
             }
         }
-
 
         this.listEmployees.add(employee);
         return true;
@@ -41,40 +82,48 @@ public class Firm {
                 return true;
             }
         }
+
+
         return false;
     }
 
-    public ArrayList<Employee> getAllEmployees() {
-        return new ArrayList<Employee>(listEmployees);
+    public boolean addDepartment(Department department) {
 
-    }
-
-    public ArrayList<Employee> getAllEmployeesOrderedBySalary() {
-        Employee tmpMaxSalary;
-        ArrayList<Employee> listEmployees = getAllEmployees();
-
-        for (int i = 0; i < listEmployees.size(); i++) {
-
-            for (int j = 0; j < listEmployees.size() - 1; j++) {
-
-                if (listEmployees.get(j).getSalary() > listEmployees.get(j + 1).getSalary()) {
-
-                    tmpMaxSalary = listEmployees.get(j);
-                    listEmployees.set(j, listEmployees.get(j + 1));
-                    listEmployees.set(j + 1, tmpMaxSalary);
-
-                }
+        for (Department d : listOfDepartment) {
+            if (d.getNameDep().equals(department)) {
+                return false;
             }
         }
-        return listEmployees;
+
+        this.listOfDepartment.add(department);
+
+        return true;
     }
 
-    public ArrayList<Employee> getListDepartment() {
-        return listDepartment;
+    public boolean removeDepartment(String depName) {
+
+        for (int i = 0; i < listEmployees.size(); i++) {
+            if (listOfDepartment.get(i).getNameDep().equals(depName)) {
+                listOfDepartment.remove(i);
+                return true;
+            }
+        }
+        return false;
     }
 
-    public void setListDepartment(ArrayList<Employee> listDepartment) {
-        this.listDepartment = listDepartment;
+    public void updateListOfEmployeeInDepartment(ArrayList<Employee> listEmployees) {
+
+        for (Employee e : listEmployees) {
+            for (Department d : listOfDepartment) {
+                d.getlistEmployeeOfDepartment().clear();
+            }
+            for (Department d : listOfDepartment) {
+                if (e.getDepartment().equals(d.getNameDep())) {
+                    d.addEmployeeToDepartment(e);
+                }
+            }
+
+        }
     }
 
     public void giveSalaryForAll() {
@@ -94,7 +143,7 @@ public class Firm {
     }
 
     public void printListEmployees() {
-        ArrayList<Employee> listEmployees = getAllEmployees();
+        ArrayList<Employee> listEmployees = getListEmployees();
         printList(listEmployees);
     }
 
@@ -106,38 +155,6 @@ public class Firm {
     public void printFirmInfo() {
         System.out.println("Фирма: " + name + " " + adress + " " + account);
 
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getAccount() {
-        return account;
-    }
-
-    public void setAccount(double account) {
-        this.account = account;
-    }
-
-    public String getAdress() {
-        return adress;
-    }
-
-    public void setAdress(String adress) {
-        this.adress = adress;
-    }
-
-    public ArrayList<Employee> getListEmployees() {
-        return listEmployees;
-    }
-
-    public void setListEmployees(ArrayList<Employee> listEmployees) {
-        this.listEmployees = listEmployees;
     }
 
     public boolean setDepartmentForEmployee(String name, String surname, String patronymic, String departmentName) {
@@ -203,15 +220,41 @@ public class Firm {
         for (int i = 0; i < listEmployees.size(); i++) {
             System.out.printf(
                     "Employee "
-                            + "Name: %-10s Surname: %-10s Surname: %-10s Salary: %-8.2f Balance: %-8.2f Sex: %-6s Department: %-10s\n",
+                            + "Name: %-10s Surname: %-10s Surname: %-10s Salary: %-8.2f Balance: %-8.2f Department: %-10s\n",
+
                     listEmployees.get(i).getName(), listEmployees.get(i).getSurname(), listEmployees.get(i).getPatronymic(), listEmployees.get(i).getSalary(),
-                    listEmployees.get(i).getBalance(), listEmployees.get(i).getSex(),
+                    listEmployees.get(i).getBalance(),
                     listEmployees.get(i).getDepartment());
 
         }
         System.out.println("==========================================================");
 
 
+    }
+
+    public ArrayList<Employee> getAllEmployees() {
+        return new ArrayList<Employee>(listEmployees);
+
+    }
+
+    public ArrayList<Employee> getAllEmployeesOrderedBySalary() {
+        Employee tmpMaxSalary;
+        ArrayList<Employee> listEmployees = getAllEmployees();
+
+        for (int i = 0; i < listEmployees.size(); i++) {
+
+            for (int j = 0; j < listEmployees.size() - 1; j++) {
+
+                if (listEmployees.get(j).getSalary() > listEmployees.get(j + 1).getSalary()) {
+
+                    tmpMaxSalary = listEmployees.get(j);
+                    listEmployees.set(j, listEmployees.get(j + 1));
+                    listEmployees.set(j + 1, tmpMaxSalary);
+
+                }
+            }
+        }
+        return listEmployees;
     }
 
     public ArrayList<Employee> getEmployeesFromDepSortedBySalary(String departmentName) {
@@ -256,15 +299,17 @@ public class Firm {
     }
 
     public void printEmployeesFromDepSortedByName(String departmentName) {
-        System.out.println("Отдел и сотрудники по фамилии " + departmentName);
         ArrayList<Employee> listEmployees = getEmployeesFromDepSortedBySalary(departmentName);
         printList(listEmployees);
 
     }
 
+
     void sellFor10() {
 
     }
+
+
 
 
 }

@@ -44,4 +44,8 @@ public class Department {
     public void setNameDep(String nameDep) {
         this.nameDep = nameDep;
     }
+
+    public void removeAllEmployeeFromDepartment(){
+
+    }
 }

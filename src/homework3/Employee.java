@@ -86,6 +86,10 @@ public class Employee {
 	public void setDepartment(String department) {
 		this.department = department;
 	}
+
+	public double calcSalary (){
+		return getSalary();
+	}
 }
 
 class Manager extends Employee{
@@ -100,6 +104,10 @@ class Manager extends Employee{
 		this.subDep = subDep;
 	}
 
+	public double calcSalary(){
+		return getSalary()+50;
+	}
+
 }
 
 class SalesManager extends Employee {
@@ -110,9 +118,11 @@ class SalesManager extends Employee {
 		return sales;
 	}
 
-	public void setSales(int sales) {
-		this.sales = sales;
+	public double calcSalary(){
+		return getSalary()+this.sales*0.3;
 	}
+
+
 
 
 }
